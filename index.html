@@ -150,9 +150,9 @@
         <h2 class="title is-3">First Objective: Legged Locomotion</h2>
         <div class="content has-text-justified">
           <p>
-            In this section, additional <b>implementation details</b> and quantitative results that were referenced throughout the main report are presented, including the network architecture, reward design, and training curves for both retracted-arms and rested-arms configurations. These results complement the main report by illustrating how the learned policies evolve and how different terms in the reward function shape the final behavior.
+            The most simple and direct approach to humanoid locomotion is to train a policy that controls only the legs of the robot, while keeping the arms in a <b>retracted</b> position or <b>rested</b> closer to the ground. This heavily <b>reduces the complexity</b> of the control problem, but comes at the cost of <b>reduced mobility</b>. This approach allows for a more focused training process, as the policy can concentrate on learning effective leg movements without the added complexity of coordinating arm motions. The results presented in this section demonstrate the effectiveness of this approach, showcasing how the learned policies enable the robot to achieve stable and efficient locomotion in both configurations.
           </p>
-        </div>
+        </div> 
 
         </div>
       </div>
@@ -387,19 +387,7 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="https://media.githubusercontent.com/media/Dzone077/Project-Page/main/static/videos/entire_run.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        Work towards improving deploy robot motion controllers to exhibit more <b>controlled</b> and <b>natural</b> movements.
-      </h2>
-    </div>
-  </div>
-</section>
+
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -419,7 +407,7 @@
         <h2 class="title is-3">Second Objective: Whole-Body Locomotion</h2>
         <div class="content has-text-justified">
           <p>
-            Significant early progress has been made towards the second objective of implementing whole-body locomotion with the robot's arms swinging naturally in motion, that could not be included in the main report due to space constraints. This section presents <b>preliminary qualitative results</b> showcasing early training environments.
+            Adding upper body movement in the locomotion of the robot allows for a more <b>natural</b> and <b>stable</b> gait, as the arms can be used to counterbalance the motion of the legs and improve stability. This approach increases the complexity of the control problem, as the policy must learn to coordinate the movements of both the upper and lower body, which for this objective that coordination was orchestrated solely through handmade reward functions to promote the upper body movement. However, it also provides the potential for improved mobility and agility, as the robot can utilize its full range of motion to navigate complex environments. The results presented in this section demonstrate how the learned policies enable the robot to achieve stable and efficient locomotion while utilizing its entire body.
           </p>
         </div>
 
@@ -428,6 +416,20 @@
     </div>
   </div>
 
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="https://media.githubusercontent.com/media/Dzone077/Project-Page/main/static/videos/entire_run.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Work towards improving deploy robot motion controllers to exhibit more <b>controlled</b> and <b>natural</b> movements.
+      </h2>
+    </div>
+  </div>
 </section>
 
 <section class="section">
