@@ -1,0 +1,180 @@
+/* Thesis landing page, layered on the NeRFies/Bulma template (index.css). */
+
+:root {
+  --ink: #1d1f23;
+  --muted: #5d636d;
+  --rule: #e4e6ea;
+  --panel: #f6f7f9;
+  --accent: #2f5d9e;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+
+/* section jump bar */
+.section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+}
+.section-nav .nav-inner {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 8px 12px;
+  scrollbar-width: none;
+}
+.section-nav a {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .9rem;
+  white-space: nowrap;
+}
+.section-nav a:hover { background: var(--panel); color: var(--ink); }
+/* auto margins centre the links when they fit, yet keep the first one reachable when the bar scrolls */
+.section-nav a:first-child { margin-left: auto; }
+.section-nav a:last-child { margin-right: auto; }
+
+/* headline numbers */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 1.5rem 0 .5rem;
+}
+.stat {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.stat .value {
+  display: block;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.stat .label {
+  display: block;
+  margin-top: 6px;
+  font-size: .82rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* objective headers */
+.objective-kicker {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.thesis-section { border-top: 1px solid var(--rule); }
+.thesis-section .title.is-3 { margin-bottom: 1rem; }
+.thesis-section .content p { color: #33373d; }
+.subhead {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.2rem;
+  margin: 2.2rem 0 .9rem;
+  color: var(--ink);
+}
+
+/* media with captions */
+.media-figure { margin: 0 0 1.25rem; }
+.media-figure video,
+.media-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #f0f1f3;
+}
+.media-figure figcaption {
+  margin-top: .5rem;
+  font-size: .86rem;
+  line-height: 1.45;
+  color: var(--muted);
+  text-align: center;
+}
+.media-figure.plot img { background: #fff; border: 1px solid var(--rule); }
+
+/* robot picker under the cross-embodiment video */
+.robot-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+.robot-tabs button {
+  border: 1px solid var(--rule);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 4px;
+  font: inherit;
+  font-size: .82rem;
+  line-height: 1.25;
+  color: var(--muted);
+  cursor: pointer;
+}
+.robot-tabs button small { display: block; font-size: .7rem; color: #9097a1; }
+.robot-tabs button[aria-pressed="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+  font-weight: 700;
+}
+.robot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.robot-grid figure { margin: 0; }
+.robot-grid img { border-radius: 8px; display: block; width: 100%; }
+.robot-grid figcaption { font-size: .8rem; color: var(--muted); text-align: center; margin-top: 4px; }
+
+/* collapsed training details */
+details.training-details {
+  margin-top: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0 16px;
+}
+details.training-details summary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+details.training-details[open] summary { border-bottom: 1px solid var(--rule); margin-bottom: 1rem; }
+
+.note {
+  border-left: 3px solid #e0a64a;
+  background: #fdf8ef;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: .92rem;
+  color: #5a4a2c;
+}
+
+.button.is-disabled { opacity: .55; pointer-events: none; }
+
+pre.bibtex {
+  background: var(--panel);
+  border-radius: 8px;
+  font-size: .82rem;
+  white-space: pre-wrap;
+}
+
+@media screen and (max-width: 768px) {
+  .publication-title.title.is-1 { font-size: 2rem; }
+  .content.has-text-justified { text-align: left !important; }
+  .robot-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .robot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat .value { font-size: 1.6rem; }
+}
