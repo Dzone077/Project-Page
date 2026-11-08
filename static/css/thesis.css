@@ -337,3 +337,16 @@ pre.bibtex {
 /* a wide figure that extends past the text column on large screens (centred, never wider than the screen) */
 .media-figure.bleed { max-width: none; width: min(1100px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
 .media-figure.bleed img { width: 96%; margin-left: auto; margin-right: auto; }
+/* top bar: the section in view */
+/* a black bar that grows in under the link of the section in view */
+.section-nav a { position: relative; transition: color .2s ease; }
+.section-nav a::after {
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: 1px; height: 2px;
+  background: var(--ink); border-radius: 2px;
+  transform: scaleX(0); transform-origin: center; transition: transform .25s ease;
+}
+.section-nav a.active { color: var(--ink); font-weight: 600; }
+.section-nav a.active::after { transform: scaleX(1); }
+.section-nav a.active:hover { background: transparent; }
+.sim-triplet span.rname { display: flex; }
+.sim-triplet .rname .rlogo { height: 1.35em; }

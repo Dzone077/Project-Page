@@ -30,7 +30,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/thesis.css?v=21">
+  <link rel="stylesheet" href="./static/css/thesis.css?v=25">
   <link rel="icon" href="./static/images/IST_Logo_cropped.png">
 
   <!-- KaTeX: the equations are written in LaTeX, as in the thesis -->
@@ -120,7 +120,7 @@
     <a href="#retargeting">Reference Motion</a>
     <a href="#terrain">Height Traversal</a>
     <a href="#cross-embodiment">Cross-Embodiment</a>
-    <a href="https://www.youtube.com/watch?v=YezooTB2wP0">Video</a>
+    <a href="#film">Video</a>
     <a href="#citation">Citation</a>
   </div>
 </nav>
@@ -132,8 +132,9 @@
         <source src="./static/media/pipeline_plots.mp4" type="video/mp4">
       </video>
       <h2 class="subtitle has-text-centered" style="margin-top:1rem">
-        From a <b>motion-capture</b> recording to a <b>retargeted</b> motion library, a policy trained in
-        <b>Isaac Sim</b>, and the walk <b>deployed</b> on the real Booster T1.
+        Reinforcement learning locomotion for the <b>Booster T1</b>: legged and <b>whole-body</b> walking deployed on
+        the real robot, a natural gait learned from <b>human motion capture</b>, and <b>perceptive height
+        traversal</b>, all replicated on six further humanoids.
       </h2>
     </div>
   </div>
@@ -175,7 +176,7 @@
       <div class="stat"><span class="value">&minus;29.5%</span><span class="label">Torque-rate RMS vs. the official controller</span></div>
       <div class="stat"><span class="value">0.95&ndash;0.99</span><span class="label">Sim-to-real correlation of the arm trajectories</span></div>
       <div class="stat"><span class="value">~65%</span><span class="label">Fewer training steps with reference motion</span></div>
-      <div class="stat"><span class="value">25&nbsp;cm</span><span class="label">Risers climbed in validation (18&nbsp;cm regulated maximum)</span></div>
+      <div class="stat"><span class="value">25&nbsp;cm</span><span class="label">Step height climbed in validation (18&nbsp;cm regulated maximum)</span></div>
       <div class="stat"><span class="value">7</span><span class="label">Humanoid robots, one shared pipeline</span></div>
     </div>
 
@@ -196,9 +197,9 @@
     </figure>
     <figure class="media-figure">
       <div class="sim-triplet">
-        <div><span>MuJoCo</span><video id="sim-mj" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_mj1.jpg"><source src="./static/media/sims/mj1.mp4" type="video/mp4"></video></div>
-        <div><span>Isaac Sim</span><video id="sim-is" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_is1.jpg"><source src="./static/media/sims/is1.mp4" type="video/mp4"></video></div>
-        <div><span>Webots</span><video id="sim-wb" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_wb1.jpg"><source src="./static/media/sims/wb1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/mujoco.png?v=2" alt="">MuJoCo</span><video id="sim-mj" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_mj1.jpg"><source src="./static/media/sims/mj1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/isaacsim.png?v=2" alt="">Isaac Sim</span><video id="sim-is" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_is1.jpg"><source src="./static/media/sims/is1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/webots.png?v=2" alt="">Webots</span><video id="sim-wb" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_wb1.jpg"><source src="./static/media/sims/wb1.mp4" type="video/mp4"></video></div>
       </div>
       <div class="robot-tabs tabs-4" role="group" aria-label="Policy shown in the three simulators" data-targets="sim-mj,sim-is,sim-wb">
         <button type="button" aria-pressed="true" data-video="./static/media/sims/mj1.mp4,./static/media/sims/is1.mp4,./static/media/sims/wb1.mp4">Legged</button>
@@ -633,7 +634,7 @@
     </div>
 
     <figure class="media-figure">
-      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_library.jpg"><source src="./static/media/ref_library.mp4" type="video/mp4"></video>
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_library.jpg"><source src="./static/media/ref_library.mp4" type="video/mp4"></video>
       <figcaption>Motion-capture recording, retargeting onto the T1, morphology-optimised retargeting onto the six other
         robots, and the processed motion library.</figcaption>
     </figure>
@@ -697,10 +698,16 @@
       <figcaption>The Reference Motion Policy deployed on the T1, with the hip, shoulder and knee pitch of the three
         policies drawn live underneath.</figcaption>
     </figure>
-    <figure class="media-figure">
-      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_isaac.jpg"><source src="./static/media/ref_isaac.mp4" type="video/mp4"></video>
-      <figcaption>The same policy in Isaac Sim.</figcaption>
-    </figure>
+    <div class="pair">
+      <figure class="media-figure">
+        <video preload="none" data-lazy muted loop playsinline poster="./static/media/posters/ref_mujoco_backforth.jpg"><source src="./static/media/ref_mujoco_backforth.mp4" type="video/mp4"></video>
+        <figcaption>The Reference Motion Policy in MuJoCo.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video preload="none" data-lazy muted loop playsinline poster="./static/media/posters/ref_isaac_backforth.jpg"><source src="./static/media/ref_isaac_backforth.mp4" type="video/mp4"></video>
+        <figcaption>The same policy in Isaac Sim.</figcaption>
+      </figure>
+    </div>
     <div class="split">
       <figure class="media-figure plot"><img src="./static/images/thesis/ref_arm_policies.png?v=2" alt="Shoulder, knee and elbow pitch for three policies" loading="lazy">
         <figcaption>Right shoulder, knee and elbow pitch of the three T1 policies in real deployment.</figcaption></figure>
@@ -741,8 +748,8 @@
     <div class="content has-text-justified">
       <p>
         The Climbing Policy observes a <b>heightmap</b> of the terrain ahead, built from the head camera, and decomposes
-        stair traversal into the sub-movements a person performs instead of stumbling into the riser and recovering.
-        The T1 ascends full flights reliably up to <b>25&nbsp;cm risers</b> in validation, well beyond the 18&nbsp;cm
+        stair traversal into the sub-movements a person performs instead of stumbling into the step and recovering.
+        The T1 ascends full flights reliably up to <b>25&nbsp;cm steps</b> in validation, well beyond the 18&nbsp;cm
         regulated range, with a limit that is consistent across tread depths and simulators and therefore reflects the
         robot's physical reach. Descent reaches the same robustness except on the shallowest treads, where the feet
         leave almost no margin for placement.
@@ -754,9 +761,32 @@
     </div>
 
     <figure class="media-figure">
-      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_updown.jpg"><source src="./static/media/stairs_updown.mp4" type="video/mp4"></video>
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_updown.jpg"><source src="./static/media/stairs_updown.mp4" type="video/mp4"></video>
       <figcaption>Up and down a flight in Isaac Sim, with the head-camera heightmap inset and the active policy
         (walking, climbing, or the blend between them).</figcaption>
+    </figure>
+
+    <h3 class="subhead">Why a Perceptive Policy</h3>
+    <div class="content has-text-justified">
+      <p>
+        The walking policy becomes unstable on steps above about 4&nbsp;cm. Simply adding stairs to its training does
+        not help: however strongly velocity tracking is weighted, the policy learns to stop once pressed against the
+        first step. Rewards that actively induce climbing do work with a <b>blind</b>, proprioceptive-only observation,
+        but they reproduce the known blind strategy: the robot only detects a step once a foot strikes it, so it
+        stumbles into the step and relies on a learned recovery reflex instead of planning where to place the foot.
+      </p>
+      <p>
+        That reflex becomes more dangerous as the step grows taller relative to the robot, and the T1 is short:
+        an 18&nbsp;cm regulation step is, in proportion, a person stepping onto 36&nbsp;cm steps. The climbing policy
+        developed here therefore <b>perceives the terrain ahead</b>, and its rewards follow the sequence in which a
+        person climbs: seeing the step, placing the stance foot at a suitable distance, lifting the swing foot over
+        the height and transferring weight onto the tread.
+      </p>
+    </div>
+    <figure class="media-figure">
+      <video controls preload="none" data-lazy muted loop playsinline poster="./static/media/posters/stairs_blind_vs_perceptive.jpg"><source src="./static/media/stairs_blind_vs_perceptive.mp4" type="video/mp4"></video>
+      <figcaption>Blind against perceptive traversal of a single 6&nbsp;cm and 12&nbsp;cm step in Isaac Sim: the
+        blind policy stumbles into the taller step and falls, the perceptive one places its feet before it.</figcaption>
     </figure>
 
     <h3 class="subhead">Perceiving the Terrain</h3>
@@ -806,11 +836,11 @@
       </p>
     </div>
     <figure class="media-figure">
-      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_ascent.jpg"><source src="./static/media/stairs_ascent.mp4" type="video/mp4"></video>
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_ascent.jpg"><source src="./static/media/stairs_ascent.mp4" type="video/mp4"></video>
       <figcaption>T1 ascent in Isaac Sim, with the head-camera field of view and the heightmap cells it observes.</figcaption>
     </figure>
-    <figure class="media-figure plot"><img src="./static/images/thesis/stairs_success_rates.png?v=2" alt="Ascent success rate by riser height and tread depth" loading="lazy">
-      <figcaption>T1 ascent success rate by riser height for 0.4, 0.6 and 0.8&nbsp;m treads, in MuJoCo and Isaac
+    <figure class="media-figure plot" style="max-width:none"><img src="./static/images/thesis/stairs_success_rates.png?v=2" alt="Ascent success rate by step height and tread depth" loading="lazy">
+      <figcaption>T1 ascent success rate by step height for 0.4, 0.6 and 0.8&nbsp;m treads, in MuJoCo and Isaac
         Sim.</figcaption></figure>
 
     <h3 class="subhead">Blending Walking and Climbing</h3>
@@ -843,7 +873,7 @@
       </p>
     </div>
     <figure class="media-figure">
-      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_descent_scrolling.jpg"><source src="./static/media/stairs_descent_scrolling.mp4" type="video/mp4"></video>
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_descent_scrolling.jpg"><source src="./static/media/stairs_descent_scrolling.mp4" type="video/mp4"></video>
       <figcaption>T1 descent guided by its head camera, with hip and knee pitch drawn live underneath across the
         hand-off: Height Expert, Blend, then Walking Policy.</figcaption>
     </figure>
@@ -926,13 +956,13 @@
         than twice as long, taking extra footsteps on each tread to reposition before the next step.
       </p>
     </div>
-    <figure class="media-figure plot bleed"><img src="./static/images/thesis/stairs_robots_joints.png?v=3" alt="Leg pitch joints of six robots climbing the same flight" loading="lazy">
+    <figure class="media-figure plot" style="max-width:none"><img src="./static/images/thesis/stairs_robots_joints.png?v=3" alt="Leg pitch joints of six robots climbing the same flight" loading="lazy">
       <figcaption>Leg pitch joints of six robots climbing the same flight of twelve 15&nbsp;cm steps with 0.4&nbsp;m
         treads at 0.5&nbsp;m/s; each step cycle climbs exactly one step. Lines show the mean and bands
         &plusmn;1 standard deviation across step cycles.</figcaption></figure>
 
     <figure class="media-figure plot" style="max-width:none"><img src="./static/images/thesis/stairs_success_robots.png?v=2" alt="Full-flight ascent success of the additional robots" loading="lazy">
-      <figcaption>Full-flight ascent success of every additional robot by riser height, for 0.4, 0.6 and
+      <figcaption>Full-flight ascent success of every additional robot by step height, for 0.4, 0.6 and
         0.8&nbsp;m treads, in MuJoCo and Isaac Sim (400 randomized-start episodes per condition, 95% Wilson
         intervals).</figcaption></figure>
     <div class="split media-wide">
@@ -1030,6 +1060,32 @@
       });
     }, { rootMargin: '300px 0px' });
     vids.forEach(function (v) { io.observe(v); });
+  })();
+
+  // top bar: highlight the section currently in view
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.section-nav a[href^="#"]'));
+    var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+    function update() {
+      var y = window.scrollY + 120, current = -1;
+      sections.forEach(function (sec, i) { if (sec && sec.offsetTop <= y) current = i; });
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = sections.length - 1;
+      links.forEach(function (a, i) {
+        var on = i === current;
+        a.classList.toggle('active', on);
+        if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+      var act = links[current];
+      if (act && act.parentNode.scrollWidth > act.parentNode.clientWidth) {
+        act.parentNode.scrollTo({ left: act.offsetLeft - act.parentNode.clientWidth / 2 + act.offsetWidth / 2, behavior: 'smooth' });
+      }
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { update(); ticking = false; }); }
+    }, { passive: true });
+    window.addEventListener('load', update);
+    update();
   })();
 
   // image switches (left / right leg): each button swaps the src of the group's target image.
