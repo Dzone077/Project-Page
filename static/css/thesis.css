@@ -10,6 +10,18 @@
 
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
+.publication-links .publication-brand-logo {
+  box-sizing: border-box;
+  width: 96px;
+  height: 30px;
+  object-fit: contain;
+  padding: 3px 5px;
+  margin-right: .5rem;
+  border-radius: 3px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
 /* section jump bar */
 .section-nav {
   position: sticky;
@@ -101,6 +113,68 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .media-figure video { aspect-ratio: 16 / 9; object-fit: cover; }
 .media-figure video.r43 { aspect-ratio: 4 / 3; }
 
+/* Expand space below the video before revealing its controls. */
+.video-player { position: relative; --controls-height: 48px; }
+.video-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  color: #4b5057;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: height 180ms ease-out 80ms, padding 180ms ease-out 80ms, opacity 80ms ease-out;
+}
+.video-player:hover .video-player-controls,
+.video-player:focus-within .video-player-controls {
+  height: var(--controls-height);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  opacity: 1;
+  pointer-events: auto;
+  transition: height 180ms ease-out, padding 180ms ease-out, opacity 100ms ease-out 180ms;
+}
+.video-player-controls button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.video-player-controls button:hover { color: #111; background: #f0f1f3; }
+.video-player-controls button:focus-visible,
+.video-player-controls input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.video-player-controls svg { width: 20px; height: 20px; }
+.video-player-controls input[type="range"] { height: 3px; margin: 0; accent-color: #555b63; cursor: pointer; }
+.video-player-seek { flex: 1; min-width: 32px; }
+.video-player-time { font-size: .75rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.video-player:fullscreen { display: flex; flex-direction: column; justify-content: center; background: #111; border-radius: 0; }
+.media-figure .video-player:fullscreen video { min-height: 0; max-height: calc(100vh - var(--controls-height)); object-fit: contain; }
+.video-player:fullscreen .video-player-controls { padding-left: 12px; padding-right: 12px; }
+@media (hover: none) {
+  .video-player-controls { height: var(--controls-height); padding-top: 8px; padding-bottom: 8px; opacity: 1; pointer-events: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-player-controls,
+  .video-player:hover .video-player-controls,
+  .video-player:focus-within .video-player-controls { transition: none; }
+}
+@media screen and (max-width: 480px) {
+  .video-player-controls { gap: 6px; }
+  .video-player-time { font-size: .68rem; }
+}
+
 /* two media side by side, always equal width */
 .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; }
 .pair > .media-figure { margin-bottom: 1.5rem; }
@@ -138,6 +212,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 }
 .media-figure.plot img { background: transparent; border: 0; border-radius: 0; }
 
+/* Keep the complete frame on images that already include a grey border. */
+.media-figure img.framed-image,
+.robot-grid img.framed-image { border-radius: 0; }
+
 /* robot picker under the cross-embodiment video */
 .robot-tabs {
   display: grid;
@@ -170,6 +248,12 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
 /* the same policy side by side in the three simulators */
 .sim-triplet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.media-figure .sim-triplet video {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+}
 .sim-triplet span { display: block; text-align: center; font-size: .8rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
 .robot-tabs button[aria-pressed="true"] {
   border-color: var(--ink);
@@ -251,4 +335,5 @@ pre.bibtex {
 .img-tabs-row .img-tabs { margin-bottom: 0; }
 
 /* a wide figure that extends past the text column on large screens (centred, never wider than the screen) */
-.media-figure.bleed { max-width: none; width: min(1200px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
+.media-figure.bleed { max-width: none; width: min(1100px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
+.media-figure.bleed img { width: 96%; margin-left: auto; margin-right: auto; }
