@@ -30,8 +30,14 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="stylesheet" href="./static/css/thesis.css?v=2">
+  <link rel="stylesheet" href="./static/css/thesis.css?v=11">
   <link rel="icon" href="./static/images/IST_Logo_cropped.png">
+
+  <!-- KaTeX: the equations are written in LaTeX, as in the thesis -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
 
   <script defer src="./static/js/fontawesome.all.min.js"></script>
 </head>
@@ -58,9 +64,17 @@
           <div class="column has-text-centered">
             <div class="publication-links">
               <span class="link-block">
-                <a class="external-link button is-normal is-rounded is-dark is-disabled" aria-disabled="true">
+                <a href="./static/pdf/Thesis_Duarte_Santos.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Thesis (Coming Soon)</span>
+                  <span>Thesis</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="./static/pdf/Extended_Abstract_Duarte_Santos.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper (To Be Submitted)</span>
                 </a>
               </span>
               <span class="link-block">
@@ -96,8 +110,8 @@
     <a href="#locomotion">Legged</a>
     <a href="#whole-body">Whole-Body</a>
     <a href="#retargeting">Reference Motion</a>
-    <a href="#terrain">Stairs</a>
-    <a href="#cross-embodiment">Seven Robots</a>
+    <a href="#terrain">Height Traversal</a>
+    <a href="#cross-embodiment">Cross-Embodiment</a>
     <a href="#film">Full Video</a>
     <a href="#citation">Citation</a>
   </div>
@@ -107,7 +121,7 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <video autoplay muted loop playsinline preload="metadata" poster="./static/media/posters/pipeline.jpg" style="width:100%;border-radius:8px">
-        <source src="./static/media/pipeline.mp4" type="video/mp4">
+        <source src="./static/media/pipeline_plots.mp4" type="video/mp4">
       </video>
       <h2 class="subtitle has-text-centered" style="margin-top:1rem">
         From a <b>motion-capture</b> recording to a <b>retargeted</b> motion library, a policy trained in
@@ -127,54 +141,121 @@
           <p>
             This thesis develops reinforcement learning-based locomotion for the <b>Booster T1</b>, a humanoid robot
             whose long, heavy arms and dexterous hands give it an asymmetric morphology that the official controller
-            does not account for, resulting in a short, stompy gait with the arms held retracted. The core of the work
-            is <b>natural and robust movement</b>. A legged controller is first trained and deployed on the real robot,
+            does not account for, resulting in a short, stompy gait with the arms held retracted. The work centers on
+            <b>natural and robust movement</b>. A legged controller is first trained and deployed on the real robot,
             and then extended to the <b>whole body</b>, with the arms swinging in anti-phase with the legs. Compared with
             the official controller, the deployed whole-body policy reduces mean mechanical power by 41% and torque-rate
-            RMS by 29.5%, and a second formulation that minimises the cost of transport shows that a restrained arm
-            swing is the economical solution for this morphology.
+            RMS by 29.5%. A second formulation that minimizes the cost of transport shows that a restrained arm swing is
+            the economical solution for this morphology.
           </p>
           <p>
             Walking is then enhanced with <b>reference motions</b> retargeted from an established motion library and
-            our own recordings, organised by speed so that the gait is expressive at high velocities and reserved as it
-            slows down. This policy walks with a less crouched posture and converges in roughly 65% fewer training
-            steps. Finally, a <b>perceptive climbing policy</b> observes a heightmap of the terrain ahead and learns
-            ascent and descent as structured sub-movements, climbing risers of up to 25&nbsp;cm in simulation, and is
-            blended with the walking policy at deployment so that neither behaviour degrades and switching remains
-            smooth. Every stage follows the same training, validation and deployment pipeline, and is replicated on
-            <b>six further state-of-the-art humanoid robots</b>.
+            our own recordings of human locomotion, organized by speed so that the gait is more pronounced at high
+            velocities and restrained as it slows down. This policy walks with a less crouched posture and converges in
+            roughly 65% fewer training steps. Finally, the framework is extended to <b>perceptive height traversal</b>:
+            a policy that observes a heightmap of the terrain ahead learns ascent and descent as structured
+            sub-movements and, in simulation, climbs steps of up to 25&nbsp;cm. It is blended with the walking policy so
+            that neither behavior degrades and transitions remain smooth. Every stage follows the same training and
+            validation pipeline, and is replicated on <b>six further state-of-the-art humanoid robots</b>.
           </p>
         </div>
       </div>
     </div>
 
     <div class="stat-grid">
-      <div class="stat"><span class="value">&minus;41%</span><span class="label">mean mechanical power vs. the official controller</span></div>
-      <div class="stat"><span class="value">&minus;29.5%</span><span class="label">torque-rate RMS vs. the official controller</span></div>
-      <div class="stat"><span class="value">0.95&ndash;0.99</span><span class="label">sim-to-real correlation of the arm trajectories</span></div>
-      <div class="stat"><span class="value">~65%</span><span class="label">fewer training steps with reference motion</span></div>
-      <div class="stat"><span class="value">25&nbsp;cm</span><span class="label">risers climbed in validation (18&nbsp;cm regulated maximum)</span></div>
-      <div class="stat"><span class="value">7</span><span class="label">humanoid robots, one shared pipeline</span></div>
+      <div class="stat"><span class="value">&minus;41%</span><span class="label">Mean mechanical power vs. the official controller</span></div>
+      <div class="stat"><span class="value">&minus;29.5%</span><span class="label">Torque-rate RMS vs. the official controller</span></div>
+      <div class="stat"><span class="value">0.95&ndash;0.99</span><span class="label">Sim-to-real correlation of the arm trajectories</span></div>
+      <div class="stat"><span class="value">~65%</span><span class="label">Fewer training steps with reference motion</span></div>
+      <div class="stat"><span class="value">25&nbsp;cm</span><span class="label">Risers climbed in validation (18&nbsp;cm regulated maximum)</span></div>
+      <div class="stat"><span class="value">7</span><span class="label">Humanoid robots, one shared pipeline</span></div>
     </div>
 
     <h3 class="subhead has-text-centered">Structure of the Work</h3>
     <figure class="media-figure">
-      <img src="./static/images/thesis/overview.jpg" alt="Diagram of the four objectives and the per-objective loop" loading="lazy">
-      <figcaption>Four objectives build on each other: legged locomotion, whole-body locomotion, reference-motion
-        fine-tuning and perceptive stair traversal. Each one goes through the same loop: train, validate sim-to-sim,
-        deploy, and compare against the previous behaviour.</figcaption>
+      <img src="./static/images/thesis/structure.png?v=2" alt="Diagram of the four objectives, the per-objective loop and the cross-robot study" loading="lazy">
+      <figcaption>Four objectives build on each other: Legged Locomotion, Whole-Body Locomotion (with an
+        Energy Efficiency formulation), Reference Motion Fine-Tuning and Perceptive Height Traversal. Each one goes
+        through the same loop: train, validate sim-to-sim, deploy, and compare against the previous behaviour, and
+        each is replicated on six further humanoids.</figcaption>
     </figure>
 
+    <h3 class="subhead has-text-centered">Simulator Pipeline</h3>
     <figure class="media-figure">
-      <img src="./static/images/thesis/simulators.jpg" alt="Roles of MuJoCo, Isaac Sim and Webots" loading="lazy">
+      <img src="./static/images/thesis/simulators.jpg?v=2" alt="Roles of MuJoCo, Isaac Sim and Webots" loading="lazy">
       <figcaption>Three simulators, three roles: MuJoCo for training and validation, Isaac Sim for parallel
         multi-robot validation and rendering, Webots for the official Booster deployment script.</figcaption>
     </figure>
-    <figure class="media-figure plot" style="max-width:640px;margin-left:auto;margin-right:auto">
-      <img src="./static/images/thesis/policy_structure.png" alt="Policy inputs and outputs" loading="lazy">
-      <figcaption>Policy structure: joystick command, proprioception, gait clock and previous action in;
-        joint position offsets out.</figcaption>
+    <figure class="media-figure">
+      <div class="sim-triplet">
+        <div><span>MuJoCo</span><video id="sim-mj" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_mj1.jpg"><source src="./static/media/sims/mj1.mp4" type="video/mp4"></video></div>
+        <div><span>Isaac Sim</span><video id="sim-is" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_is1.jpg"><source src="./static/media/sims/is1.mp4" type="video/mp4"></video></div>
+        <div><span>Webots</span><video id="sim-wb" class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/sims_wb1.jpg"><source src="./static/media/sims/wb1.mp4" type="video/mp4"></video></div>
+      </div>
+      <div class="robot-tabs tabs-4" role="group" aria-label="Policy shown in the three simulators" data-targets="sim-mj,sim-is,sim-wb">
+        <button type="button" aria-pressed="true" data-video="./static/media/sims/mj1.mp4,./static/media/sims/is1.mp4,./static/media/sims/wb1.mp4">Legged</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/sims/mj2.mp4,./static/media/sims/is2.mp4,./static/media/sims/wb2.mp4">Whole-Body</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/sims/mj3.mp4,./static/media/sims/is3.mp4,./static/media/sims/wb3.mp4">Reference Motion</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/sims/mj4.mp4,./static/media/sims/is4.mp4,./static/media/sims/wb4.mp4">Height Traversal</button>
+      </div>
+      <figcaption>The panels of the figure above, in motion. In Isaac Sim the Height Traversal Policy is validated on
+        hundreds of copies at once (the red dots are the heightmap scanner rays); the Webots walking panels replay the
+        MuJoCo motion on Webots' own T1 model.</figcaption>
     </figure>
+
+    <h3 class="subhead has-text-centered">Robot Models</h3>
+    <div class="robot-grid">
+      <figure><img src="./static/images/thesis/model_t1.jpg?v=2" alt="Booster T1" loading="lazy"><figcaption class="rname"><img class="rlogo" src="./static/images/logos/booster.png" alt="Booster logo">Booster T1</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_k1.jpg?v=2" alt="Booster K1" loading="lazy"><figcaption class="rname"><img class="rlogo" src="./static/images/logos/booster.png" alt="Booster logo">Booster K1</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_g1.jpg?v=2" alt="Unitree G1" loading="lazy"><figcaption class="rname"><img class="rlogo" src="./static/images/logos/unitree.png" alt="Unitree logo">Unitree G1</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_gr3.jpg?v=2" alt="Fourier GR3" loading="lazy"><figcaption class="rname"><img class="rlogo" src="./static/images/logos/fourier.png" alt="Fourier logo">Fourier GR3</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_a3.jpg?v=2" alt="AgiBot A3" loading="lazy"><figcaption class="rname"><img class="rlogo" src="./static/images/logos/agibot.png" alt="AgiBot logo">AgiBot A3</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_dr02.jpg?v=2" alt="Deep Robotics DR02" loading="lazy"><figcaption class="rname"><img class="rlogo word" src="./static/images/logos/deeprobotics.png" alt="Deep Robotics">DR02</figcaption></figure>
+      <figure><img src="./static/images/thesis/model_kangaroo.jpg?v=2" alt="PAL Kangaroo" loading="lazy"><figcaption class="rname"><img class="rlogo word" src="./static/images/logos/pal.png" alt="PAL Robotics">Kangaroo</figcaption></figure>
+    </div>
+    <figure class="media-figure" style="margin-top:1.25rem">
+      <img src="./static/images/thesis/robots_lineup_rest.jpg?v=2" alt="The seven robots side by side at rest" loading="lazy">
+      <img src="./static/images/thesis/robots_lineup_wingspan.jpg?v=2" alt="The seven robots side by side with arms extended" loading="lazy" style="margin-top:8px">
+      <figcaption>The studied robots side by side, standing at rest and showing their total wingspan.</figcaption>
+    </figure>
+
+    <h3 class="subhead has-text-centered">Policy Structure and Learning</h3>
+    <div class="split">
+      <figure class="media-figure plot">
+        <img src="./static/images/thesis/policy_structure.png?v=2" alt="Policy inputs and outputs" loading="lazy">
+        <figcaption>Policy structure: joystick command, proprioception, gait clock and previous action in;
+          joint position offsets out.</figcaption>
+      </figure>
+      <div class="content has-text-justified">
+        <p>
+          Every policy is a deterministic actor \(\mu_\phi(s) = a\). It observes the joystick command
+          \((v_x, v_y, \omega_z)\), the joint positions and velocities, the IMU's angular velocity and gravity
+          vector, a gait clock \((\cos 2\pi f t, \sin 2\pi f t)\) and its previous action, and outputs joint position
+          offsets around the home pose.
+        </p>
+        <p>
+          Training follows an <b>Asymmetric Actor-Critic</b>: the critic additionally sees privileged quantities only
+          a simulator can provide, such as the base linear velocity and height, body accelerations, push forces and
+          feet velocities, while the actor keeps to what the real robot can measure.
+        </p>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        The policies are trained with TD3, run over thousands of parallel simulated environments as in FastTD3.
+        Two critics are learned against a shared target that takes the smaller of their estimates, with clipped noise
+        on the target action:
+      </p>
+      <div class="math">\[
+        y_t = r_{t+1} + \gamma \min_{i=1,2} Q_{\theta_i'}\big(s_{t+1}, \tilde a(s_{t+1})\big), \qquad
+        \tilde a(s_{t+1}) = \operatorname{clip}\big(\mu_{\phi'}(s_{t+1}) + \epsilon',\, a_{\min},\, a_{\max}\big),
+      \]</div>
+      <p>
+        and the actor ascends the critic, \(\nabla_\phi J = \mathbb{E}_{s \sim \mathcal{D}}\big[\nabla_\phi
+        Q_\theta(s, \mu_\phi(s))\big]\), with target networks following by Polyak averaging,
+        \(\theta' \leftarrow \rho\,\theta' + (1-\rho)\,\theta\).
+      </p>
+    </div>
   </div>
 </section>
 
@@ -194,60 +275,115 @@
     </div>
 
     <figure class="media-figure">
-      <video controls muted loop playsinline preload="none" poster="./static/media/posters/legged_real.jpg">
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_real.jpg">
         <source src="./static/media/legged_real.mp4" type="video/mp4">
       </video>
-      <figcaption>Real-robot deployment of the legged policy, including the safe lowering of the arms from the
+      <figcaption>Real-robot deployment of the Legged Policy, including the safe lowering of the arms from the
         retracted position, compared with the official Booster controller.</figcaption>
     </figure>
 
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure">
-          <video autoplay muted loop playsinline preload="metadata"><source src="./static/media/legged_retracted_train.mp4" type="video/mp4"></video>
-          <figcaption>Training with the arms retracted.</figcaption>
-        </figure>
+    <figure class="media-figure">
+      <video id="legged-real-plots" controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_retracted_real_plots.jpg"><source src="./static/media/legged_retracted_real_plots.mp4" type="video/mp4"></video>
+      <div class="robot-tabs tabs-2" role="group" aria-label="Arm configuration" data-targets="legged-real-plots">
+        <button type="button" aria-pressed="true" data-video="./static/media/legged_retracted_real_plots.mp4" data-poster="./static/media/posters/legged_retracted_real_plots.jpg">Arms Retracted</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/legged_rested_real_plots.mp4" data-poster="./static/media/posters/legged_rested_real_plots.jpg">Arms Rested</button>
       </div>
-      <div class="column">
-        <figure class="media-figure">
-          <video autoplay muted loop playsinline preload="metadata"><source src="./static/media/legged_rested_train.mp4" type="video/mp4"></video>
-          <figcaption>Training with the arms rested.</figcaption>
-        </figure>
-      </div>
+      <figcaption>The deployment with its logged joint angles drawn live underneath, real robot against MuJoCo.</figcaption>
+    </figure>
+
+    <h3 class="subhead">In Simulation</h3>
+    <div class="pair">
+      <figure class="media-figure">
+        <video id="legged-mj" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_retracted_mujoco.jpg"><source src="./static/media/legged_retracted_mujoco.mp4" type="video/mp4"></video>
+        <figcaption>MuJoCo.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video id="legged-is" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_retracted_isaac.jpg"><source src="./static/media/legged_retracted_isaac.mp4" type="video/mp4"></video>
+        <figcaption>Isaac Sim.</figcaption>
+      </figure>
+    </div>
+    <div class="robot-tabs tabs-2 tabs-under" role="group" aria-label="Arm configuration in simulation" data-targets="legged-mj,legged-is">
+      <button type="button" aria-pressed="true" data-video="./static/media/legged_retracted_mujoco.mp4,./static/media/legged_retracted_isaac.mp4" data-poster="./static/media/posters/legged_retracted_mujoco.jpg,./static/media/posters/legged_retracted_isaac.jpg">Arms Retracted</button>
+      <button type="button" aria-pressed="false" data-video="./static/media/legged_rested_mujoco.mp4,./static/media/legged_rested_isaac.mp4" data-poster="./static/media/posters/legged_rested_mujoco.jpg,./static/media/posters/legged_rested_isaac.jpg">Arms Rested</button>
+    </div>
+
+    <div class="pair">
+      <figure class="media-figure">
+        <video class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_retracted_train.jpg"><source src="./static/media/legged_retracted_train.mp4" type="video/mp4"></video>
+        <figcaption>Training with the arms retracted.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video class="r43" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/legged_rested_train.jpg"><source src="./static/media/legged_rested_train.mp4" type="video/mp4"></video>
+        <figcaption>Training with the arms rested.</figcaption>
+      </figure>
     </div>
 
     <h3 class="subhead">Developed Policy <i>vs.</i> Official Booster Controller</h3>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure plot"><img src="./static/images/vel1bb.svg" alt="Left leg joint velocities, developed policy vs Booster" loading="lazy">
-          <figcaption>Left leg joint angular velocities over a forward walk cycle.</figcaption></figure>
+    <div class="split text-wide">
+      <div class="content has-text-justified">
+        <p>
+          Over the same forward walk, the developed policy moves through a much wider range than the official
+          controller: <b>2.1&times;</b> at the hip (47.5&deg; against 22.5&deg;), 1.4&times; at the knee and 1.8&times;
+          at the ankle, while every pitch joint stays at least 15&deg; from its actuator limits.
+        </p>
+        <p>
+          It is also more repeatable. Measured as the deviation between time-normalized strides relative to each
+          joint's range, it drops from 12% to 7.5% at the hip, 10% to 7.7% at the knee and 21% to 12% at the ankle.
+          The policy walks at <b>1&nbsp;Hz</b> against the Booster's 1.9&nbsp;Hz, taking fewer and longer steps.
+        </p>
       </div>
-      <div class="column">
-        <figure class="media-figure plot"><img src="./static/images/vel2b.svg" alt="Right leg joint velocities, developed policy vs Booster" loading="lazy">
-          <figcaption>Right leg joint angular velocities over a forward walk cycle.</figcaption></figure>
-      </div>
+      <figure class="media-figure plot">
+        <div class="img-tabs" role="group" aria-label="Leg" data-target="plot-vs-booster">
+          <button type="button" aria-pressed="true" data-src="./static/images/thesis/booster_pos_left.png?v=2">Left Leg</button>
+          <button type="button" aria-pressed="false" data-src="./static/images/thesis/booster_pos_right.png?v=2">Right Leg</button>
+        </div>
+        <img id="plot-vs-booster" src="./static/images/thesis/booster_pos_left.png?v=2" alt="Leg joint angles, developed policy vs Booster controller" loading="lazy">
+        <figcaption>Hip, knee and ankle pitch angles over a forward walk on the real robot: the developed policy
+          (1&nbsp;Hz) against the official Booster controller (blue, 1.9&nbsp;Hz).</figcaption>
+      </figure>
     </div>
 
     <h3 class="subhead">Sim-to-Real Gap</h3>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure plot"><img src="./static/images/vel1s.svg" alt="Left leg joint velocities, simulation vs real" loading="lazy">
-          <figcaption>Left leg: MuJoCo against the real robot.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure plot"><img src="./static/images/vel2s.svg" alt="Right leg joint velocities, simulation vs real" loading="lazy">
-          <figcaption>Right leg: MuJoCo against the real robot.</figcaption></figure>
+    <div class="split media-wide">
+      <figure class="media-figure plot">
+        <div class="img-tabs-row">
+        <div class="img-tabs" role="group" aria-label="Quantity" data-target="plot-sim2real" data-key="q">
+          <button type="button" aria-pressed="true" data-value="pos">Joint Angles</button>
+          <button type="button" aria-pressed="false" data-value="vel">Joint Velocities</button>
+        </div>
+        <div class="img-tabs" role="group" aria-label="Leg" data-target="plot-sim2real" data-key="leg">
+          <button type="button" aria-pressed="true" data-value="left">Left Leg</button>
+          <button type="button" aria-pressed="false" data-value="right">Right Leg</button>
+        </div>
+        </div>
+        <img id="plot-sim2real" src="./static/images/thesis/sim2real_legged_pos_left.png?v=2"
+             data-pattern="./static/images/thesis/sim2real_legged_{q}_{leg}.png?v=2" data-q="pos" data-leg="left"
+             alt="Leg joint angles and velocities, MuJoCo vs real robot" loading="lazy">
+        <figcaption>Hip, knee and ankle pitch over a forward walk: the real robot against MuJoCo, both at
+          1&nbsp;Hz, on the logs' own 2&nbsp;ms time base.</figcaption>
+      </figure>
+      <div class="content has-text-justified">
+        <p>
+          No simulator models the real world exactly, and though the two are hard to tell apart in motion, the joints
+          show where they differ. The curve shapes and the gait frequency are kept, and the hip and knee pitch follow
+          their simulated trajectories closely.
+        </p>
+        <p>
+          The ankle, the joint most affected by contact with the ground, departs the most. The hip ranges match within
+          2&deg;, while on the robot the knee works about 8&ndash;10&deg; more and the ankle about 10&deg; less than
+          in simulation.
+        </p>
       </div>
     </div>
 
     <details class="training-details">
-      <summary>Training details: network, reward, joint limits and training curves</summary>
+      <summary>Training Details: Network, Reward, Joint Limits and Training Curves</summary>
       <div class="columns">
         <div class="column"><figure class="media-figure"><img src="./static/images/network.png" alt="Network and training parameters" loading="lazy"><figcaption>Network and training parameters.</figcaption></figure></div>
         <div class="column"><figure class="media-figure"><img src="./static/images/reward.png" alt="Reward function" loading="lazy"><figcaption>Reward function.</figcaption></figure></div>
       </div>
       <figure class="media-figure"><img src="./static/images/joint_table.png" alt="Joint angle limits" loading="lazy" style="max-width:85%;margin:0 auto"><figcaption>Joint angle limits (rad) for the upper and lower body.</figcaption></figure>
-      <h4 class="subhead">Arms retracted</h4>
+      <h4 class="subhead">Arms Retracted</h4>
       <div class="columns">
         <div class="column"><img src="./static/images/avg_reward_hu3.svg" alt="Average reward, arms retracted" loading="lazy"></div>
         <div class="column"><img src="./static/images/avg_return_hu3.svg" alt="Average return, arms retracted" loading="lazy"></div>
@@ -256,7 +392,7 @@
         <div class="column"><img src="./static/images/actor_loss_hu.svg" alt="Actor loss, arms retracted" loading="lazy"></div>
         <div class="column"><img src="./static/images/q_loss_hu4.svg" alt="Q-function loss, arms retracted" loading="lazy"></div>
       </div>
-      <h4 class="subhead">Arms rested</h4>
+      <h4 class="subhead">Arms Rested</h4>
       <div class="columns">
         <div class="column"><img src="./static/images/avg_reward_hd.svg" alt="Average reward, arms rested" loading="lazy"></div>
         <div class="column"><img src="./static/images/avg_return_hd.svg" alt="Average return, arms rested" loading="lazy"></div>
@@ -289,73 +425,179 @@
         <b>0.95&ndash;0.99</b>.
       </p>
       <p>
-        A second formulation that makes the <b>cost of transport</b> the primary objective converges to the same
+        A second formulation that makes the <b>Cost of Transport</b> the primary objective converges to the same
         restrained swing, indicating that it is the economical solution for the T1, reached through a more flexed leg
         posture.
       </p>
     </div>
 
     <figure class="media-figure">
-      <video controls muted playsinline preload="none" poster="./static/media/posters/wb_real.jpg">
-        <source src="./static/media/wb_real.mp4" type="video/mp4">
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/wb_laps.jpg">
+        <source src="./static/media/wb_laps.mp4" type="video/mp4">
       </video>
-      <figcaption>Trial laps on the real robot: the official Booster controller first, then the whole-body policy
+      <figcaption>Trial laps on the real robot: the Whole-Body Policy, then the official Booster controller from 0:56
         (parts sped up 4&times;).</figcaption>
     </figure>
 
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/wb_comparison.jpg" alt="Fixed vs moving upper body on the real robot" loading="lazy">
-          <figcaption>Fixed against moving upper body on the real T1.</figcaption></figure>
+    <figure class="media-figure">
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/wb_real_plots.jpg"><source src="./static/media/wb_real_plots.mp4" type="video/mp4"></video>
+      <figcaption>Whole-body deployment with its logged right hip, knee and ankle pitch drawn live underneath,
+        against the Legged Policy's.</figcaption>
+    </figure>
+    <div class="split media-wide">
+      <figure class="media-figure plot">
+        <div class="img-tabs" role="group" aria-label="Leg" data-target="plot-wb-vs-legged">
+          <button type="button" aria-pressed="true" data-src="./static/images/thesis/wb_vs_legged_left.png?v=2">Left Leg</button>
+          <button type="button" aria-pressed="false" data-src="./static/images/thesis/wb_vs_legged_right.png?v=2">Right Leg</button>
+        </div>
+        <img id="plot-wb-vs-legged" src="./static/images/thesis/wb_vs_legged_left.png?v=2" alt="Joint angles of the whole-body and legged policies on the real robot" loading="lazy">
+        <figcaption>Recorded joint angles on the real robot: Whole-Body Policy (red) against the Legged Policy with
+          rested arms (orange).</figcaption></figure>
+      <div class="content has-text-justified">
+        <p>
+          Moving the upper body keeps the main stepping pattern but changes the lower-body configuration within it.
+          The hip-pitch trajectories stay closely aligned, while the knees and ankles differ: knee flexion is reduced
+          over large parts of the cycle, particularly on the right leg, and the ankle pitch shifts without losing its
+          periodic structure.
+        </p>
+        <p>
+          The recordings also show some left&ndash;right asymmetry, more pronounced in the now-active upper body, since
+          symmetry is not enforced in training. This is one of the motivations for the reference motions that follow.
+        </p>
       </div>
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/wb_laps.jpg" alt="Three full laps with the whole-body policy" loading="lazy">
-          <figcaption>Three full laps with the whole-body policy, used for the torque and power analysis.</figcaption></figure>
-      </div>
+    </div>
+
+    <figure class="media-figure"><img src="./static/images/thesis/wb_comparison.jpg?v=2" alt="Fixed vs moving upper body on the real robot" loading="lazy">
+      <figcaption>Fixed against moving upper body on the real T1.</figcaption></figure>
+
+    <h3 class="subhead">Coordinating the Arms</h3>
+    <div class="content has-text-justified">
+      <p>
+        Anti-phase arm swing does not emerge on its own, so arm timing was made a precondition of an existing reward:
+        the feet-swing reward is granted only when the upper limbs follow the stepping pattern. During the swing of
+        leg \(a\), the shoulder of the opposite arm \(\bar a\) has to pitch in the same direction as the swinging hip,
+      </p>
+      <div class="math">\[
+        \mathbb{1}^{(a)}_{\text{limbs follow}} = \mathbb{1}\big[\,\dot q^{\,\text{sh}}_{\bar a}\;\dot q^{\,\text{hip}}_{a} > 0\,\big],
+        \qquad a \in \{\text{L}, \text{R}\},
+      \]</div>
+      <p>
+        so a step taken with uncoordinated arms earns nothing. Since the condition compares directions rather than
+        prescribing one, it holds for forward and backward walking alike.
+      </p>
     </div>
 
     <h3 class="subhead">Torque and Power</h3>
-    <figure class="media-figure plot"><img src="./static/images/thesis/wb_torque_reduction.png" alt="Joint torques and average absolute power per joint" loading="lazy">
+    <figure class="media-figure plot"><img src="./static/images/thesis/wb_torque_reduction.png?v=2" alt="Joint torques and average absolute power per joint" loading="lazy">
       <figcaption>Arm joint torques and average absolute power per joint: official controller (blue) against the
-        whole-body policy (orange).</figcaption></figure>
-    <figure class="media-figure plot" style="max-width:680px;margin-left:auto;margin-right:auto"><img src="./static/images/thesis/wb_torque_boxes.png" alt="Leg torque distributions" loading="lazy">
-      <figcaption>Hip, knee and ankle pitch torque distributions over the trial laps, and the average torque
-        reduction.</figcaption></figure>
-
-    <h3 class="subhead">Sim-to-Real and Simulation Validation</h3>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure plot"><img src="./static/images/thesis/wb_sim2real_left.png" alt="Left leg joint angles, simulation vs real" loading="lazy">
-          <figcaption>Left leg joint angles over a forward walk: MuJoCo against the real robot.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure">
-          <video autoplay muted loop playsinline preload="metadata"><source src="./static/media/wb_isaac.mp4" type="video/mp4"></video>
-          <figcaption>Validation in Isaac Lab.</figcaption>
-        </figure>
+        Whole-Body Policy (orange).</figcaption></figure>
+    <div class="split">
+      <figure class="media-figure plot"><img src="./static/images/thesis/wb_torque_boxes.png?v=2" alt="Leg torque distributions" loading="lazy">
+        <figcaption>Hip, knee and ankle pitch torque distributions over the trial laps, and the average torque
+          reduction.</figcaption></figure>
+      <div class="content has-text-justified">
+        <p>
+          The shoulder pitch develops recurring torque peaks with the added arm motion, but this extra demand is small
+          next to the reductions at the hip pitch, hip yaw and knee pitch. Over the three-lap route, mean absolute
+          mechanical power falls from 91.3&nbsp;W to <b>53.7&nbsp;W (&minus;41.2%)</b>, positive power by 40.3% and
+          torque RMS by 16.4%.
+        </p>
+        <p>
+          The motion is also smoother: torque-rate RMS drops by <b>29.5%</b> and angular-jerk RMS by 80.7%, so the
+          lower demand does not come from a more irregular gait.
+        </p>
       </div>
     </div>
 
-    <h3 class="subhead">Energy Efficiency and Morphology</h3>
-    <figure class="media-figure"><img src="./static/images/thesis/wb_energy_posture.jpg" alt="Whole-body vs energy-efficient policy posture" loading="lazy">
-      <figcaption>Whole-body policy (left) against the energy-efficient policy (right): the same restrained arm swing,
-        with a more flexed leg posture.</figcaption></figure>
-    <div class="columns is-vcentered">
-      <div class="column is-5">
-        <figure class="media-figure plot"><img src="./static/images/thesis/wb_arm_swing_robots.png" alt="Arm swing of five robots at equal Froude number" loading="lazy">
-          <figcaption>Arm swing across robots at equal Froude number (Fr&nbsp;&asymp;&nbsp;0.04).</figcaption></figure>
+    <h3 class="subhead">Sim-to-Real and Simulation Validation</h3>
+    <div class="split">
+      <div class="content has-text-justified">
+        <p>
+          The trained motion transfers directly onto the real robot. Against the average of Isaac Sim and MuJoCo under
+          the same command, the cycle-averaged trajectories of the shared joints differ by an RMSE of only
+          <b>1.8&deg;</b>, and the mean posture of every joint agrees within 1.5&deg;.
+        </p>
+        <p>
+          The legs transfer almost exactly, with a correlation of 0.99 and an RMSE of 6% of their range for hip and
+          knee pitch; shoulder and elbow correlate at 0.95&ndash;0.99, and torque RMS and positive power differ by only
+          9% and 10%.
+        </p>
       </div>
-      <div class="column">
-        <div class="content has-text-justified">
-          <p>
-            Trained under the same energy-efficient objective, each robot is compared at the speed that matches the
-            T1's at equal Froude number, so the remaining differences come from morphology and learned behaviour. The
-            economical swing follows each morphology rather than a universal pattern: robots with more human-like
-            proportions swing their arms visibly more and stay upright, whereas the T1, with long and heavy arms,
-            rotates its shoulder little yet displaces about as much arm mass as the K1. Efficiency alone therefore does
-            not lead the T1 to a human-like gait, which motivates the next objective.
-          </p>
+      <figure class="media-figure plot">
+        <div class="img-tabs" role="group" aria-label="Leg" data-target="plot-wb-sim2real">
+          <button type="button" aria-pressed="true" data-src="./static/images/thesis/wb_sim2real_left.png?v=2">Left Leg</button>
+          <button type="button" aria-pressed="false" data-src="./static/images/thesis/wb_sim2real_right.png?v=2">Right Leg</button>
         </div>
+        <img id="plot-wb-sim2real" src="./static/images/thesis/wb_sim2real_left.png?v=2" alt="Whole-body policy joint angles, MuJoCo vs real robot" loading="lazy">
+        <figcaption>Whole-Body Policy joint angles over a forward walk: the real robot against MuJoCo.</figcaption></figure>
+    </div>
+    <div class="pair">
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/wb_mujoco.jpg"><source src="./static/media/wb_mujoco.mp4" type="video/mp4"></video>
+        <figcaption>The Whole-Body Policy in MuJoCo.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/wb_isaac_backforth.jpg"><source src="./static/media/wb_isaac_backforth.mp4" type="video/mp4"></video>
+        <figcaption>The same policy in Isaac Sim.</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="subhead">Energy Efficiency and Morphology</h3>
+    <div class="content has-text-justified">
+      <p>
+        The second formulation makes the <b>Cost of Transport</b> the primary objective, so the arms are rewarded only
+        through their effect on the work done by the legs. The per-step cost uses positive mechanical power,
+      </p>
+      <div class="math">\[
+        \mathrm{CoT} = \frac{E}{m\,g\,d} = \frac{P}{m\,g\,v}, \qquad
+        \mathrm{CoT}_t = \min\!\left(\frac{\sum_j \max(\tau_j \dot q_j,\, 0)}{m\,g\,\max(|v_x|,\, v_{\min})},\; c_{\max}\right),
+      \]</div>
+      <p class="where">
+        with \(v_{\min} = 0.15\) m/s to avoid the singularity near standstill and \(c_{\max} = 3\), about five times
+        the cost of a normal gait, so that a stumble cannot dominate the reward.
+      </p>
+    </div>
+    <div class="pair">
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/wb_mujoco.jpg"><source src="./static/media/wb_mujoco.mp4" type="video/mp4"></video>
+        <figcaption>Whole-Body Policy.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_mujoco.jpg"><source src="./static/media/energy_mujoco.mp4" type="video/mp4"></video>
+        <figcaption>Energy-Efficient Policy: the same restrained arm swing, with a more flexed leg posture.</figcaption>
+      </figure>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        To compare robots of different sizes, each is run at the speed that matches the T1's at equal
+        <b>Froude Number</b>, the ratio of inertial to gravitational forces over the leg length \(L\):
+      </p>
+      <div class="math">\[ \mathrm{Fr} = \frac{v^2}{g\,L} \approx 0.04. \]</div>
+    </div>
+    <figure class="media-figure">
+      <div class="video-grid">
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/booster.png" alt="Booster logo">Booster T1</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_robots_t1.jpg"><source src="./static/media/energy_robots/t1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/booster.png" alt="Booster logo">Booster K1</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_robots_k1.jpg"><source src="./static/media/energy_robots/k1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/unitree.png" alt="Unitree logo">Unitree G1</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_robots_g1.jpg"><source src="./static/media/energy_robots/g1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/fourier.png" alt="Fourier logo">Fourier GR3</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_robots_gr3.jpg"><source src="./static/media/energy_robots/gr3.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/agibot.png" alt="AgiBot logo">AgiBot A3</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/energy_robots_a3.jpg"><source src="./static/media/energy_robots/a3.mp4" type="video/mp4"></video></div>
+      </div>
+      <figcaption>The Energy-Efficient objective on the five robots of the arm-swing comparison, in Isaac Sim.</figcaption>
+    </figure>
+    <div class="split">
+      <figure class="media-figure plot"><img src="./static/images/thesis/wb_arm_swing_robots.png?v=2" alt="Arm swing of five robots at equal Froude Number" loading="lazy">
+        <figcaption>Arm swing across robots at equal Froude Number (Fr&nbsp;&asymp;&nbsp;0.04).</figcaption></figure>
+      <div class="content has-text-justified">
+        <p>
+          Trained under the same Energy-Efficient objective and compared at equal Froude Number, the remaining
+          differences come from morphology and learned behaviour. The economical swing follows each morphology rather
+          than a universal pattern: robots with more human-like proportions swing their arms visibly more and stay
+          upright, whereas the T1, with long and heavy arms, rotates its shoulder little yet displaces about as much
+          arm mass as the K1.
+        </p>
+        <p>
+          Efficiency alone therefore does not lead the T1 to a human-like gait, which motivates the next objective.
+        </p>
       </div>
     </div>
   </div>
@@ -383,57 +625,103 @@
     </div>
 
     <figure class="media-figure">
-      <video autoplay muted loop playsinline preload="metadata"><source src="./static/media/ref_library.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_library.jpg"><source src="./static/media/ref_library.mp4" type="video/mp4"></video>
       <figcaption>Motion-capture recording, retargeting onto the T1, morphology-optimised retargeting onto the six other
         robots, and the processed motion library.</figcaption>
     </figure>
 
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/ref_mocap.jpg" alt="Mocap recording retargeted to three robots" loading="lazy">
-          <figcaption>Our recording, retargeted to the Booster T1, Unitree G1 and Fourier GR3.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/ref_retargeting.jpg" alt="Base OmniRetarget vs implemented modifications" loading="lazy">
-          <figcaption>Base OmniRetarget against the implemented modifications for the T1.</figcaption></figure>
-      </div>
+    <h3 class="subhead">Retargeting for Non-Human Proportions</h3>
+    <div class="content has-text-justified">
+      <p>
+        Each frame is retargeted by an interaction-mesh optimization: the Laplacian coordinates \(L(\cdot)\) of the
+        human keypoints are matched on the robot, with a smoothness term, a soft term that draws the contacting soles
+        flat onto the ground and a hard constraint that keeps the feet apart,
+      </p>
+      <div class="math">\[
+        \begin{aligned}
+        q_t^\star = \operatorname*{argmin}_{q_t}\quad
+          & \underbrace{\sum_i \big\lVert L(p^{\text{source}}_{t,i}) - L(p^{\text{target}}_{t,i}(q_t)) \big\rVert^2
+            + \lVert q_t - q_{t-1} \rVert_Q^2}_{\text{Reference}}
+          + \underbrace{w_g \sum_{i \in \mathcal{C}_t} s_{t,i}\,\big(e_z^\top f_i(q_t) - \bar z_{t,i}\big)^2}_{\text{Sole contact}} \\
+        \text{subject to}\quad & \text{the original OmniRetarget constraints}, \qquad
+          \underbrace{n(q_t)^\top\big(f_l(q_t) - f_r(q_t)\big) \ge d_{\min}}_{\text{Lateral foot separation}} ,
+        \end{aligned}
+      \]</div>
+      <p class="where">
+        where \(f_i(q_t)\) is a sole keypoint, \(\mathcal{C}_t\) the keypoints in contact and \(n(q_t)\) the trunk's
+        lateral axis projected on the ground.
+      </p>
     </div>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_retargeting.jpg"><source src="./static/media/ref_retargeting.mp4" type="video/mp4"></video>
+      <figcaption>Base OmniRetarget against the implemented modifications for the T1.</figcaption>
+    </figure>
 
     <h3 class="subhead">Velocity-Conditioned Tracking</h3>
-    <figure class="media-figure"><img src="./static/images/thesis/ref_speeds.jpg" alt="Gait at maximum, lowest and medium speed" loading="lazy">
+    <div class="content has-text-justified">
+      <p>
+        All walking cycles are normalized to a common length of \(N = 49\) frames, which fixes one gait frequency for
+        the whole library, \(f_{\text{ref}} = 50\ \text{Hz} / N \approx 1.02\ \text{Hz}\). Each cycle keeps its
+        captured speed \(\bar v_i\) as a label of its style, and at every step the tracked cycle is the one closest to
+        the commanded planar speed:
+      </p>
+      <div class="math">\[ i^\ast = \arg\min_i \big|\, \bar v_i - \lVert \mathbf{c}_{xy} \rVert \,\big| . \]</div>
+      <p>
+        Because every cycle shares one phase clock, a new command changes the style and stride of the reference but
+        never breaks the rhythm of the gait. Imitation is then rewarded separately for the arms and the legs, so the
+        error of one group cannot saturate the other's learning signal:
+      </p>
+      <div class="math">\[
+        r_G = \mathbb{1}_{\lVert \mathbf{c} \rVert > 0.1}\cdot
+          \exp\!\Big(-\frac{1}{\sigma_G} \sum_{j \in G} w_j\,(q_j - \hat q_j)^2\Big),
+        \qquad G \in \{\text{Arms}, \text{Legs}\}.
+      \]</div>
+    </div>
+    <figure class="media-figure"><img src="./static/images/thesis/ref_speeds.jpg?v=2" alt="Gait at maximum, lowest and medium speed" loading="lazy">
       <figcaption>The same policy at maximum (0.8&nbsp;m/s), lowest (0.2&nbsp;m/s) and medium (0.5&nbsp;m/s) speed in
         MuJoCo.</figcaption></figure>
-    <figure class="media-figure plot"><img src="./static/images/thesis/ref_training_speed.png" alt="Training reward with and without reference motion" loading="lazy">
+    <figure class="media-figure plot"><img src="./static/images/thesis/ref_training_speed.png?v=2" alt="Training reward with and without reference motion" loading="lazy">
       <figcaption>Training reward with (green) and without (red) reference motion, for the T1, G1 and K1.</figcaption></figure>
 
     <h3 class="subhead">On the Real Robot</h3>
-    <div class="columns">
-      <div class="column is-7">
-        <figure class="media-figure">
-          <video controls muted loop playsinline preload="none" poster="./static/media/posters/ref_real.jpg"><source src="./static/media/ref_real.mp4" type="video/mp4"></video>
-          <figcaption>Reference-motion policy deployed on the T1.</figcaption>
-        </figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure">
-          <video autoplay muted loop playsinline preload="metadata" poster="./static/media/posters/ref_isaac.jpg"><source src="./static/media/ref_isaac.mp4" type="video/mp4"></video>
-          <figcaption>Reference-motion walking in Isaac Sim.</figcaption>
-        </figure>
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/ref_hardware.jpg" alt="Real robot at maximum arm swing velocity" loading="lazy">
-          <figcaption>Maximum forward velocity command on the real robot.</figcaption></figure>
-      </div>
-      <div class="column is-5">
-        <figure class="media-figure plot"><img src="./static/images/thesis/ref_arm_policies.png" alt="Shoulder, knee and elbow pitch for three policies" loading="lazy">
-          <figcaption>Shoulder, knee and elbow pitch: reference-motion, whole-body and legged policies.</figcaption></figure>
+    <figure class="media-figure">
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_real_plots.jpg"><source src="./static/media/ref_real_plots.mp4" type="video/mp4"></video>
+      <figcaption>The Reference Motion Policy deployed on the T1, with the hip, shoulder and knee pitch of the three
+        policies drawn live underneath.</figcaption>
+    </figure>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/ref_isaac.jpg"><source src="./static/media/ref_isaac.mp4" type="video/mp4"></video>
+      <figcaption>The same policy in Isaac Sim.</figcaption>
+    </figure>
+    <div class="split">
+      <figure class="media-figure plot"><img src="./static/images/thesis/ref_arm_policies.png?v=2" alt="Shoulder, knee and elbow pitch for three policies" loading="lazy">
+        <figcaption>Right shoulder, knee and elbow pitch of the three T1 policies in real deployment.</figcaption></figure>
+      <div class="content has-text-justified">
+        <p>
+          The Legged Policy holds the arms near their fixed pose, yet its arm trajectories are the most irregular:
+          holding them against gravity and the reactions of walking forces constant small corrections. Freeing the arms
+          removes most of this, but the whole-body swing stays conservative, mostly in the low elbow peaks.
+        </p>
+        <p>
+          With reference guidance, shoulder and elbow follow strong, smooth and coordinated waves, and the movement
+          becomes far more symmetric: left&ndash;right waveform similarity across the arm joints rises from
+          <b>46.8% to 95.3%</b>, with the elbow going from 51.2% to 98.1%.
+        </p>
       </div>
     </div>
 
-    <figure class="media-figure"><img src="./static/images/thesis/ref_robots.jpg" alt="Reference-motion walking on the six other robots" loading="lazy">
-      <figcaption>Reference-motion walking on the K1, GR3, G1, A3, DR02 and Kangaroo.</figcaption></figure>
+    <h3 class="subhead">On the Six Other Robots</h3>
+    <figure class="media-figure">
+      <div class="video-grid">
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/booster.png" alt="Booster logo">Booster K1</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_k1.jpg"><source src="./static/media/robots_ref/k1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/fourier.png" alt="Fourier logo">Fourier GR3</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_gr3.jpg"><source src="./static/media/robots_ref/gr3.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/unitree.png" alt="Unitree logo">Unitree G1</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_g1.jpg"><source src="./static/media/robots_ref/g1.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo" src="./static/images/logos/agibot.png" alt="AgiBot logo">AgiBot A3</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_a3.jpg"><source src="./static/media/robots_ref/a3.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo word" src="./static/images/logos/deeprobotics.png" alt="Deep Robotics">DR02</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_dr02.jpg"><source src="./static/media/robots_ref/dr02.mp4" type="video/mp4"></video></div>
+        <div><span class="rname"><img class="rlogo word" src="./static/images/logos/pal.png" alt="PAL Robotics">Kangaroo</span><video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_ref_kangaroo.jpg"><source src="./static/media/robots_ref/kangaroo.mp4" type="video/mp4"></video></div>
+      </div>
+      <figcaption>Each robot's Reference Motion Policy in Isaac Sim, at its maximum forward velocity command.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -441,10 +729,10 @@
 <section class="section thesis-section" id="terrain">
   <div class="container is-max-desktop">
     <div class="objective-kicker">Objective 4</div>
-    <h2 class="title is-3">Perceptive Stair Traversal</h2>
+    <h2 class="title is-3">Perceptive Height Traversal</h2>
     <div class="content has-text-justified">
       <p>
-        A climbing policy observes a <b>heightmap</b> of the terrain ahead, built from the head camera, and decomposes
+        The Climbing Policy observes a <b>heightmap</b> of the terrain ahead, built from the head camera, and decomposes
         stair traversal into the sub-movements a person performs instead of stumbling into the riser and recovering.
         The T1 ascends full flights reliably up to <b>25&nbsp;cm risers</b> in validation, well beyond the 18&nbsp;cm
         regulated range, with a limit that is consistent across tread depths and simulators and therefore reflects the
@@ -452,56 +740,139 @@
         leave almost no margin for placement.
       </p>
       <p>
-        At deployment the climber is <b>blended</b> with the reference-motion walker, preserving both behaviours with
-        smooth hand-offs and without either expert degenerating.
+        At deployment the climber is <b>blended</b> with the Reference Motion Policy through a gate driven by the
+        heightmap, preserving both behaviours with smooth hand-offs and without either expert degenerating.
       </p>
     </div>
 
     <figure class="media-figure">
-      <video autoplay muted loop playsinline preload="metadata"><source src="./static/media/stairs_updown.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_updown.jpg"><source src="./static/media/stairs_updown.mp4" type="video/mp4"></video>
       <figcaption>Up and down a flight in Isaac Sim, with the head-camera heightmap inset and the active policy
         (walking, climbing, or the blend between them).</figcaption>
     </figure>
 
-    <h3 class="subhead">Structured Sub-Movements</h3>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/stairs_ascent_step.jpg" alt="Ascent step phases" loading="lazy">
-          <figcaption>Ascent: lead lift-off, apex and touchdown, then the trailing foot.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/stairs_descent_step.jpg" alt="Descent step phases" loading="lazy">
-          <figcaption>Descent: pre-drop stance, lead lowering and touchdown, then the trailing foot.</figcaption></figure>
-      </div>
+    <h3 class="subhead">Perceiving the Terrain</h3>
+    <div class="content has-text-justified">
+      <p>
+        The climber observes a \(5 \times 5\) heightmap in its own heading frame, spanning 0.1&ndash;0.7&nbsp;m ahead of
+        the base and \(\pm 0.3\)&nbsp;m to either side. Each sample is taken relative to the terrain directly under the
+        base, so on flat ground the map is identically zero instead of oscillating with the gait, and positive values
+        are capped at the next step height:
+      </p>
+      <div class="math">\[
+        \mathrm{hm}_{ij} = \operatorname{clip}\Big(\min\big(z_{\text{terrain}}(\mathbf{p}_{ij}) - z_{\text{terrain}}(\mathbf{p}_{\text{base}}),\; h_{\text{next}}\big),\, -1,\, 1\Big).
+      \]</div>
+      <p>
+        The walking rewards that would resist a tall step are not removed but released gradually by a continuous
+        <b>Step Engagement</b> \(w \in [0, 1]\), ramped over a small height band from the highest point of the two
+        nearest rows, so the flat-ground gait is untouched away from the stairs. Near a step, the gait clock also
+        slows down, to 75% cadence on small steps and 50% on tall ones:
+      </p>
+      <div class="math">\[
+        w_{\text{asc}} = \operatorname{clip}\!\Big(\frac{h_{\text{near}} - 0.005}{0.018 - 0.005},\, 0,\, 1\Big),
+        \qquad w = \max(w_{\text{asc}}, w_{\text{desc}}),
+        \qquad \dot\phi = 2\pi f_{\text{ref}}\,\big(1 - s(h)\,w\big).
+      \]</div>
     </div>
 
-    <figure class="media-figure"><img src="./static/images/thesis/stairs_ascent.jpg" alt="T1 ascent time-lapse" loading="lazy">
-      <figcaption>T1 ascent time-lapse.</figcaption></figure>
-    <figure class="media-figure"><img src="./static/images/thesis/stairs_descent.jpg" alt="T1 descent with head camera" loading="lazy">
-      <figcaption>T1 descent, with the head-camera field of view and the heightmap cells it observes.</figcaption></figure>
-    <figure class="media-figure plot"><img src="./static/images/thesis/stairs_success_rates.png" alt="Ascent success rate by riser height and tread depth" loading="lazy">
+    <h3 class="subhead">Structured Sub-Movements</h3>
+    <div class="pair">
+      <figure class="media-figure"><img src="./static/images/thesis/stairs_ascent_step.jpg?v=2" alt="Ascent step phases" loading="lazy">
+        <figcaption>Ascent: lead lift-off, apex and touchdown, then the trailing foot.</figcaption></figure>
+      <figure class="media-figure"><img src="./static/images/thesis/stairs_descent_step.jpg?v=2" alt="Descent step phases" loading="lazy">
+        <figcaption>Descent: pre-drop stance, lead lowering and touchdown, then the trailing foot.</figcaption></figure>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        Each sub-movement is shaped by its own term. Positioning, for instance, rewards every touchdown by the distance
+        \(d\) from the center of the sole to the next step, with a target that moves back on taller steps to leave room
+        for the swing arc:
+      </p>
+      <div class="math">\[
+        r_{\text{foothold}} = \exp\!\Big(-\frac{(d - d^\ast)^2}{\sigma^2}\Big),
+        \qquad d^\ast = \frac{\ell_f}{2} + \delta + k\,\max(0,\, h - h_0),
+      \]</div>
+      <p class="where">
+        where \(\ell_f\) is the foot length and \(\delta\) the desired toe-to-step gap. It is paid only if the foot was
+        airborne and moved closer to the step, so tapping in place earns nothing.
+      </p>
+    </div>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_ascent.jpg"><source src="./static/media/stairs_ascent.mp4" type="video/mp4"></video>
+      <figcaption>T1 ascent in Isaac Sim, with the head-camera field of view and the heightmap cells it observes.</figcaption>
+    </figure>
+    <figure class="media-figure plot"><img src="./static/images/thesis/stairs_success_rates.png?v=2" alt="Ascent success rate by riser height and tread depth" loading="lazy">
       <figcaption>T1 ascent success rate by riser height for 0.4, 0.6 and 0.8&nbsp;m treads, in MuJoCo and Isaac
         Sim.</figcaption></figure>
 
-    <h3 class="subhead">Alternating Stride and Live Perception</h3>
-    <figure class="media-figure"><img src="./static/images/thesis/stairs_stride.jpg" alt="DR02 alternating stride" loading="lazy">
-      <figcaption>Where the geometry allows, the DR02 learned an alternating stride over two treads (MuJoCo).</figcaption></figure>
-    <div class="columns">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/stairs_live_cam.jpg" alt="Live simulated camera validation" loading="lazy">
-          <figcaption>Live conversion of the simulated head camera into the heightmap, in MuJoCo.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/stairs_pointcloud.jpg" alt="Point cloud blend robustness recording" loading="lazy">
-          <figcaption>Robustness trials on recorded point clouds.</figcaption></figure>
-      </div>
+    <h3 class="subhead">Blending Walking and Climbing</h3>
+    <div class="content has-text-justified">
+      <p>
+        Rather than asking one network to learn both behaviours, the Reference Motion Policy and the climber run side
+        by side and their actions are mixed by a gate \(\beta\) computed from the heightmap, so that both a step up and
+        a drop engage the climber:
+      </p>
+      <div class="math">\[
+        \mathbf{a} = \beta\,\mathbf{a}_{\text{walk}} + (1 - \beta)\,\mathbf{a}_{\text{climb}},
+        \qquad
+        \beta^{\text{inst}} = 1 - \operatorname{clip}\!\Big(\frac{\max|\mathrm{hm}| - 0.02}{0.05 - 0.02},\, 0,\, 1\Big).
+      \]</div>
+      <p>
+        The gate has <b>hysteresis</b>. It follows \(\beta^{\text{inst}}\) down immediately, so control passes to the
+        climber as soon as a step comes into view, but returns towards the walker by at most \(1/40\) per control step,
+        0.8&nbsp;s at 50&nbsp;Hz:
+      </p>
+      <div class="math">\[
+        \beta_t = \begin{cases}
+          \beta^{\text{inst}}_t, & \beta^{\text{inst}}_t < \beta_{t-1},\\[0.3em]
+          \min\!\big(\beta^{\text{inst}}_t,\; \beta_{t-1} + \tfrac{1}{40}\big), & \text{otherwise,}
+        \end{cases}
+      \]</div>
+      <p>
+        so a flickering heightmap, as when the last step leaves view, cannot make control bounce between the two.
+        Blending in action space is well posed because both policies share an action space, a home pose and a phase
+        clock, and the climber is warm-started from the walker, so their actions agree near the switch.
+      </p>
     </div>
-    <figure class="media-figure"><img src="./static/images/thesis/stairs_webots.jpg" alt="Deployment script validation in Webots" loading="lazy">
-      <figcaption>The deployment script, validated in Webots.</figcaption></figure>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_descent_scrolling.jpg"><source src="./static/media/stairs_descent_scrolling.mp4" type="video/mp4"></video>
+      <figcaption>T1 descent guided by its head camera, with hip and knee pitch drawn live underneath across the
+        hand-off: Height Expert, Blend, then Walking Policy.</figcaption>
+    </figure>
+    <div class="content has-text-justified">
+      <p>
+        At the bottom of a flight, control is handed back to the walker over a blend of about <b>2.8&nbsp;s</b>.
+        Within a further second and a half the uneven height-traversal gait gives way to the regular, alternating
+        cycles of the reference gait, at about one second per cycle, without the robot stopping or moving erratically.
+      </p>
+    </div>
+    <figure class="media-figure plot"><img src="./static/images/thesis/stairs_blend_joints.png?v=2" alt="Hip and knee pitch across the hand-off from stair descent to walking" loading="lazy">
+      <figcaption>Hip and knee pitch across the hand-off from stair descent to walking; shading marks the policy in
+        control.</figcaption></figure>
+
+    <h3 class="subhead">Alternating Stride and Live Perception</h3>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_stride.jpg"><source src="./static/media/stairs_stride.mp4" type="video/mp4"></video>
+      <figcaption>Where the geometry allows, the DR02 learned an alternating stride over two treads (MuJoCo).</figcaption>
+    </figure>
+    <div class="pair">
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_live_cam.jpg"><source src="./static/media/stairs_live_cam.mp4" type="video/mp4"></video>
+        <figcaption>Live conversion of the simulated head camera into the heightmap, in MuJoCo.</figcaption>
+      </figure>
+      <figure class="media-figure">
+        <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_pointcloud.jpg"><source src="./static/media/stairs_pointcloud.mp4" type="video/mp4"></video>
+        <figcaption>Robustness trials on point clouds recorded by the real head camera.</figcaption>
+      </figure>
+    </div>
+    <figure class="media-figure">
+      <video muted loop playsinline preload="none" data-lazy poster="./static/media/posters/stairs_webots.jpg"><source src="./static/media/stairs_webots.mp4" type="video/mp4"></video>
+      <figcaption>The deployment script, validated in Webots.</figcaption>
+    </figure>
 
     <p class="note">
-      The stair behaviours are validated in simulation, including the live camera-to-heightmap conversion and the
-      deployment script, but not yet on the real robot.
+      The height traversal behaviours are validated in simulation, including the live camera-to-heightmap conversion
+      and the deployment script, but not yet on the real robot.
     </p>
   </div>
 </section>
@@ -509,8 +880,8 @@
 
 <section class="section thesis-section" id="cross-embodiment">
   <div class="container is-max-desktop">
-    <div class="objective-kicker">Across every objective</div>
-    <h2 class="title is-3">Seven Humanoids, One Pipeline</h2>
+    <div class="objective-kicker">Across Every Objective</div>
+    <h2 class="title is-3">Cross-Embodiment</h2>
     <div class="content has-text-justified">
       <p>
         Every training and validation environment has a counterpart for six additional robots: the Unitree G1, Booster
@@ -522,40 +893,70 @@
     </div>
 
     <figure class="media-figure">
-      <video id="robot-video" autoplay muted loop playsinline preload="metadata"><source src="./static/media/robots/all.mp4" type="video/mp4"></video>
+      <video id="robot-video" muted loop playsinline preload="none" data-lazy poster="./static/media/posters/robots_all.jpg"><source src="./static/media/robots/all.mp4" type="video/mp4"></video>
       <div class="robot-tabs" role="group" aria-label="Robot videos">
-        <button type="button" aria-pressed="true" data-video="./static/media/robots/all.mp4"><small>Stairs</small>All Six</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/g1.mp4"><small>Unitree</small>G1</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/k1.mp4"><small>Booster</small>K1</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/gr3.mp4"><small>Fourier</small>GR3</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/a3.mp4"><small>AgiBot</small>A3</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/dr02.mp4"><small>Deep Robotics</small>DR02</button>
-        <button type="button" aria-pressed="false" data-video="./static/media/robots/kangaroo.mp4"><small>PAL</small>Kangaroo</button>
+        <button type="button" aria-pressed="true" data-video="./static/media/robots/all.mp4"><small>Height Traversal</small>All Six</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/g1.mp4"><small><img class="tab-logo" src="./static/images/logos/unitree.png" alt="unitree"></small>G1</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/k1.mp4"><small><img class="tab-logo" src="./static/images/logos/booster.png" alt="booster"></small>K1</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/gr3.mp4"><small><img class="tab-logo" src="./static/images/logos/fourier.png" alt="fourier"></small>GR3</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/a3.mp4"><small><img class="tab-logo" src="./static/images/logos/agibot.png" alt="agibot"></small>A3</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/dr02.mp4"><small><img class="tab-logo word" src="./static/images/logos/deeprobotics.png" alt="deeprobotics"></small>DR02</button>
+        <button type="button" aria-pressed="false" data-video="./static/media/robots/kangaroo.mp4"><small><img class="tab-logo word" src="./static/images/logos/pal.png" alt="pal"></small>Kangaroo</button>
       </div>
       <figcaption>Each robot climbs a 16&nbsp;cm flight onto a platform in Isaac Sim, then walks with its
-        reference-motion policy.</figcaption>
+        Reference Motion Policy.</figcaption>
     </figure>
 
-    <div class="robot-grid">
-      <figure><img src="./static/images/thesis/model_t1.jpg" alt="Booster T1" loading="lazy"><figcaption>Booster T1</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_k1.jpg" alt="Booster K1" loading="lazy"><figcaption>Booster K1</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_g1.jpg" alt="Unitree G1" loading="lazy"><figcaption>Unitree G1</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_gr3.jpg" alt="Fourier GR3" loading="lazy"><figcaption>Fourier GR3</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_a3.jpg" alt="AgiBot A3" loading="lazy"><figcaption>AgiBot A3</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_dr02.jpg" alt="Deep Robotics DR02" loading="lazy"><figcaption>Deep Robotics DR02</figcaption></figure>
-      <figure><img src="./static/images/thesis/model_kangaroo.jpg" alt="PAL Kangaroo" loading="lazy"><figcaption>PAL Kangaroo</figcaption></figure>
+    <h3 class="subhead">Height Traversal Across Robots</h3>
+    <div class="content has-text-justified">
+      <p>
+        Climbing the same flight, all six robots converge to the same basic strategy: the lead leg flexes strongly at
+        the hip and knee at the start of each step, while the trailing leg follows later in the cycle with a smaller
+        excursion. What differs is the effort. For the smaller T1 and K1 a 15&nbsp;cm step is large in proportion to
+        their legs, and their lead hip reaches the highest flexion of the group, whereas the taller A3 and GR3 clear
+        the same step with roughly half of that excursion. Most robots climb at a similar pace, but the K1 needs more
+        than twice as long, taking extra footsteps on each tread to reposition before the next step.
+      </p>
+    </div>
+    <figure class="media-figure plot bleed"><img src="./static/images/thesis/stairs_robots_joints.png?v=3" alt="Leg pitch joints of six robots climbing the same flight" loading="lazy">
+      <figcaption>Leg pitch joints of six robots climbing the same flight of twelve 15&nbsp;cm steps with 0.4&nbsp;m
+        treads at 0.5&nbsp;m/s; each step cycle climbs exactly one step. Lines show the mean and bands
+        &plusmn;1 standard deviation across step cycles.</figcaption></figure>
+
+    <figure class="media-figure plot" style="max-width:none"><img src="./static/images/thesis/stairs_success_robots.png?v=2" alt="Full-flight ascent success of the additional robots" loading="lazy">
+      <figcaption>Full-flight ascent success of every additional robot by riser height, for 0.4, 0.6 and
+        0.8&nbsp;m treads, in MuJoCo and Isaac Sim (400 randomized-start episodes per condition, 95% Wilson
+        intervals).</figcaption></figure>
+    <div class="split media-wide">
+      <div class="content has-text-justified">
+        <p>
+          The robots with longer legs and easier clearance are robust over wider ranges of step height. The GR3, DR02
+          and A3 decay gradually, staying above 90% success up to roughly 25&nbsp;cm (A3), 26&nbsp;cm (GR3) and
+          28&nbsp;cm (DR02), whereas the T1 goes through the same drop within about 2&nbsp;cm. The K1 struggles from
+          21&nbsp;cm, as expected of its stature, yet climbs whole flights of steps taller than 23% of its height. The
+          Kangaroo's parallel linkage gives it a leg reach close to the T1's despite its size.
+        </p>
+      </div>
+      <div class="content">
+        <table class="table is-narrow is-fullwidth results-table">
+          <thead><tr><th>Robot</th><th>24&nbsp;cm</th><th>28&nbsp;cm</th><th>32&nbsp;cm</th></tr></thead>
+          <tbody>
+            <tr><td>T1</td><td>98</td><td>0</td><td>0</td></tr>
+            <tr><td>K1</td><td>4</td><td>0</td><td>0</td></tr>
+            <tr><td>G1</td><td>99.5</td><td>47</td><td>0</td></tr>
+            <tr><td>GR3</td><td>100</td><td>92</td><td>0</td></tr>
+            <tr><td>A3</td><td>100</td><td>100</td><td>41</td></tr>
+            <tr><td>DR02</td><td>100</td><td>96</td><td>24</td></tr>
+            <tr><td>Kangaroo</td><td>67</td><td>20</td><td>0</td></tr>
+          </tbody>
+        </table>
+        <p class="where">Full-flight completion rate (%) at each step height. Inside the 18&nbsp;cm regulation limit,
+          every robot succeeds almost always.</p>
+      </div>
     </div>
 
-    <div class="columns" style="margin-top:1.5rem">
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/multirobot.jpg" alt="Multi-copy validation in Isaac Sim" loading="lazy">
-          <figcaption>Multi-copy validation of every robot in Isaac Sim.</figcaption></figure>
-      </div>
-      <div class="column">
-        <figure class="media-figure"><img src="./static/images/thesis/stairs_ascent_robots.jpg" alt="Stair ascent of the other robots" loading="lazy">
-          <figcaption>Stair ascent across the robots.</figcaption></figure>
-      </div>
-    </div>
+    <figure class="media-figure" style="margin-top:1.5rem;max-width:680px;margin-left:auto;margin-right:auto"><img src="./static/images/thesis/multirobot.jpg?v=2" alt="Multi-copy validation in Isaac Sim" loading="lazy">
+      <figcaption>Multi-copy validation of every robot in Isaac Sim.</figcaption></figure>
   </div>
 </section>
 
@@ -564,11 +965,11 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Full Video</h2>
     <figure class="media-figure">
-      <video controls muted playsinline preload="none" poster="./static/media/posters/full_film.jpg">
-        <source src="./static/media/full_film.mp4" type="video/mp4">
+      <video controls muted loop playsinline preload="none" data-lazy poster="./static/media/posters/full_film.jpg">
+        <source src="./static/media/full_film_plots.mp4" type="video/mp4">
       </video>
-      <figcaption>Motion capture, retargeting, motion library, Isaac Sim, real-robot deployment, the T1 on stairs, and
-        the six other robots.</figcaption>
+      <figcaption>Motion capture, retargeting, motion library, Isaac Sim, real-robot deployment with its joint angles
+        drawn live, the T1 on stairs, and the six other robots.</figcaption>
     </figure>
   </div>
 </section>
@@ -604,17 +1005,71 @@
 </footer>
 
 <script>
-  // robot picker: swap the cross-embodiment video
+  // videos load and play only near the viewport, and pause when they leave it: the page has dozens of
+  // looping clips, and fetching them all at once delayed the ones in view by minutes.
   (function () {
-    var video = document.getElementById('robot-video');
-    var buttons = document.querySelectorAll('.robot-tabs button');
-    buttons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
-        video.querySelector('source').setAttribute('src', button.getAttribute('data-video'));
-        video.load();
-        var played = video.play();
-        if (played && played.catch) played.catch(function () {});
+    var vids = Array.prototype.slice.call(document.querySelectorAll('video[data-lazy]'));
+    function start(v) {
+      if (v.getAttribute('preload') === 'none') v.setAttribute('preload', 'auto');
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    if (!('IntersectionObserver' in window)) { vids.forEach(start); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) start(e.target); else e.target.pause();
+      });
+    }, { rootMargin: '300px 0px' });
+    vids.forEach(function (v) { io.observe(v); });
+  })();
+
+  // image switches (left / right leg): each button swaps the src of the group's target image.
+  (function () {
+    document.querySelectorAll('.img-tabs').forEach(function (group) {
+      var img = document.getElementById(group.getAttribute('data-target'));
+      var buttons = group.querySelectorAll('button');
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
+          if (!img) return;
+          var key = group.getAttribute('data-key');
+          if (key) {
+            img.setAttribute('data-' + key, button.getAttribute('data-value'));
+            img.setAttribute('src', img.getAttribute('data-pattern').replace(/\{(\w+)\}/g, function (m, k) {
+              return img.getAttribute('data-' + k);
+            }));
+          } else {
+            img.setAttribute('src', button.getAttribute('data-src'));
+          }
+        });
+      });
+    });
+  })();
+
+  // tab groups: each button swaps the source of the group's target video(s).
+  // data-targets lists video ids (default: the cross-embodiment video); data-video lists one
+  // source per target, comma separated. Autoplaying videos restart, click-to-play ones just reload.
+  (function () {
+    document.querySelectorAll('.robot-tabs').forEach(function (group) {
+      var ids = (group.getAttribute('data-targets') || 'robot-video').split(',');
+      var buttons = group.querySelectorAll('button');
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === button)); });
+          var srcs = button.getAttribute('data-video').split(',');
+          ids.forEach(function (id, i) {
+            var video = document.getElementById(id);
+            if (!video || !srcs[i]) return;
+            var posters = (button.getAttribute('data-poster') || '').split(',');
+            if (posters[i]) video.setAttribute('poster', posters[i]);
+            video.querySelector('source').setAttribute('src', srcs[i]);
+            video.load();
+            if (video.autoplay || video.hasAttribute('data-lazy')) {
+              var played = video.play();
+              if (played && played.catch) played.catch(function () {});
+            }
+          });
+        });
       });
     });
   })();
