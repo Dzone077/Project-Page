@@ -252,17 +252,18 @@
     <div class="content has-text-justified">
       <p>
         The policies are trained with TD3, run over thousands of parallel simulated environments as in FastTD3.
-        Two critics are learned against a shared target that takes the smaller of their estimates, with clipped noise
-        on the target action:
+        Two critics are learned against a shared target that takes the smaller of their estimates, which mitigates
+        optimistic bias:
       </p>
       <div class="math">\[
-        y_t = r_{t+1} + \gamma \min_{i=1,2} Q_{\theta_i'}\big(s_{t+1}, \tilde a(s_{t+1})\big), \qquad
-        \tilde a(s_{t+1}) = \operatorname{clip}\big(\mu_{\phi'}(s_{t+1}) + \epsilon',\, a_{\min},\, a_{\max}\big),
+        y_t = r_{t+1} + \gamma \min_{i=1,2} Q_{\theta_i'}\big(s_{t+1}, \mu_{\phi'}(s_{t+1})\big),
       \]</div>
       <p>
-        and the actor ascends the critic, \(\nabla_\phi J = \mathbb{E}_{s \sim \mathcal{D}}\big[\nabla_\phi
-        Q_\theta(s, \mu_\phi(s))\big]\), with target networks following by Polyak averaging,
-        \(\theta' \leftarrow \rho\,\theta' + (1-\rho)\,\theta\).
+        and clipped noise is added to the target policy action, \(\tilde a(s_{t+1}) = \operatorname{clip}\big(\mu_{\phi'}(s_{t+1})
+        + \epsilon',\, a_{\min},\, a_{\max}\big)\), which smooths the value landscape. The actor ascends the critic,
+        \(\nabla_\phi J = \mathbb{E}_{s \sim \mathcal{D}}\big[\nabla_\phi Q_\theta(s_t, \mu_\phi(s_t))\big]\), updated less
+        often than the critics, and both target networks follow by Polyak averaging,
+        \(\phi' \leftarrow \rho\,\phi' + (1-\rho)\,\phi\) and \(\theta' \leftarrow \rho\,\theta' + (1-\rho)\,\theta\).
       </p>
     </div>
   </div>
